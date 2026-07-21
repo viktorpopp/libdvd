@@ -23,6 +23,7 @@ async function newDvd() {
     <ul v-else>
       <li v-for="dvd in dvds" :key="dvd.id">
         <p>{{ dvd.title }}</p>
+        <img :src="dvd.imageUrl || undefined" alt="Image" />
       </li>
     </ul>
   </main>

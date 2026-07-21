@@ -20,5 +20,7 @@ async function logIn() {
     <input type="password" v-model="password" placeholder="Password" />
     <br />
     <button @click="logIn">Log in</button>
+    <br />
+    <p>Already signed up? <a href="/login">Log in</a> instead.</p>
   </div>
 </template>

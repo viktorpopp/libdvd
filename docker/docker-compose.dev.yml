@@ -7,3 +7,12 @@ services:
       - ../.env
     ports:
       - "5432:5432"
+  rustfs:
+    container_name: libdvd-s3
+    image: rustfs/rustfs:latest
+    restart: always
+    env_file:
+      - ../.env
+    ports:
+      - "9000:9000"
+      - "9001:9001"
