@@ -11,25 +11,14 @@ async function upload() {
 
   uploading.value = true;
 
-  const { key, uploadUrl } = await $fetch("/api/dvds", {
+  const formData = new FormData();
+  formData.append("title", title.value);
+  formData.append("image", imageFile.value);
+
+  const res = await $fetch("/api/dvds", {
     method: "POST",
-    body: {
-      title: title.value,
-      filename: imageFile.value?.name,
-    },
+    body: formData,
   });
-
-  const res = await fetch(uploadUrl, {
-    method: "PUT",
-    headers: {
-      "Content-Type": imageFile.value.type,
-    },
-    body: imageFile.value,
-  });
-
-  if (!res.ok) {
-    alert("Upload failed :(");
-  }
 
   await navigateTo("/dashboard");
 }

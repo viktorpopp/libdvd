@@ -1,34 +1,58 @@
 import { PutObjectCommand } from "@aws-sdk/client-s3";
-import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
-import { s3Client } from "../utils/s3";
+import sharp from "sharp";
 
 export default defineEventHandler(async (event) => {
-  const config = useRuntimeConfig();
-  const { title, filename } = await readBody(event);
+  const body = await readMultipartFormData(event);
 
-  if (!filename) {
+  if (!body) {
     throw createError({
-      statusCode: 400,
-      statusMessage: "`filename` not set!",
+      status: 400,
+      statusMessage: "No request body found!",
     });
   }
 
-  const key = `uploads/${Date.now()}-${crypto.randomUUID()}-${filename}`; // Presigned URL key
+  const title = body.find((item) => item.name == "title")?.data.toString();
+  const imageField = body.find((item) => item.name == "image");
+
+  const image = await sharp(imageField?.data).webp().toBuffer(); // Used AI to find .toBuffer()
+
+  if (!imageField?.filename) {
+    throw createError({
+      status: 400,
+      statusMessage: "No image found!",
+    });
+  }
+
+  if (!title) {
+    throw createError({
+      status: 400,
+      statusMessage: "No title found!",
+    });
+  }
+
+  const filename = imageField?.filename.replace(/(\.[^/.]+)?$/, ".webp"); // AI...
+  const fileKey = `uploads/${crypto.randomUUID()}-${filename}`;
+
+  console.log("Uploading movie: %s (%s)", title, fileKey);
+
+  const config = useRuntimeConfig();
+
+  const s3Command = new PutObjectCommand({
+    Bucket: config.s3BucketName,
+    Key: fileKey,
+    Body: image,
+    ContentType: "image/webp",
+  });
+
+  await s3Client.send(s3Command);
 
   await prisma.dvd.create({
     data: {
       title,
       userId: event.context.session.user.id,
-      imageUrl: `/api/images/${key}`,
+      imageUrl: `/api/images/${fileKey}`,
     },
   });
 
-  const command = new PutObjectCommand({
-    Bucket: config.s3BucketName,
-    Key: key,
-  });
-
-  const uploadUrl = await getSignedUrl(s3Client, command, { expiresIn: 60 });
-
-  return { key, uploadUrl };
+  return;
 });
