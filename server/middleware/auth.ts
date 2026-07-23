@@ -3,10 +3,15 @@ export default defineEventHandler(async (event) => {
     return;
   }
 
+  if (getRequestURL(event).pathname.startsWith("/api/auth")) {
+    return;
+  }
+
   const publicRoutes = ["/", "/login", "/signup"];
   if (publicRoutes.includes(getRequestURL(event).pathname)) {
     return;
   }
+
   const session = await auth.api.getSession({
     headers: event.headers,
   });
