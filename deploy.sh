@@ -4,7 +4,7 @@ set -e
 
 : "${SERVER:="viktor@homelab"}"
 : "${REMOTE_DIR:="/home/viktor/libdvd"}"
-: "${COMPOSE_FILE:="docker-compose.prod.yml"}"
+: "${COMPOSE_FILE:="docker/docker-compose.prod.yml"}"
 
 echo "Starting Deployment..."
 
@@ -20,7 +20,7 @@ scp $COMPOSE_FILE $SERVER:$REMOTE_DIR/
 
 ssh $SERVER << EOF
     set -e
-    cd $REMOTE_DIR
+    cd /home/viktor/libdvd
 
     echo "Loading Docker images..."
     docker load -i /tmp/libdvd-images.tar
