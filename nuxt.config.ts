@@ -9,11 +9,11 @@ export default defineNuxtConfig({
     },
   },
   runtimeConfig: {
-    s3AccessKey: process.env.RUSTFS_ACCESS_KEY,
-    s3SecretKey: process.env.RUSTFS_SECRET_KEY,
-    s3Endpoint: process.env.RUSTFS_ENDPOINT,
-    s3Region: process.env.RUSTFS_REGION,
-    s3BucketName: process.env.RUSTFS_BUCKET_NAME,
+    s3AccessKey: process.env.RUSTFS_ACCESS_KEY || "",
+    s3SecretKey: process.env.RUSTFS_SECRET_KEY || "",
+    s3Endpoint: process.env.RUSTFS_ENDPOINT || "http://rustfs:9000",
+    s3Region: process.env.RUSTFS_REGION || "eu-west-1",
+    s3BucketName: process.env.RUSTFS_BUCKET_NAME || "images",
     public: {
       authBaseUrl:
         process.env.NUXT_PUBLIC_AUTH_BASE_URL || "http://localhost:3000",
