@@ -1,0 +1,12 @@
+# Nuxt outputs
+.nuxt
+.output
+
+# Node dependencies
+node_modules
+
+# Environment files
+.env*
+
+# Prisma types
+prisma/generated
