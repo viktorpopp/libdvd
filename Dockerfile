@@ -24,4 +24,5 @@ WORKDIR /app
 
 ENV NODE_ENV=production
 COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/prisma ./prisma
 CMD ["node", ".output/server/index.mjs"]
