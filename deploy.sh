@@ -13,6 +13,6 @@ echo "Running database migrations..."
 docker compose --env-file .env -f $COMPOSE_FILE run --rm app pnpm prisma migrate deploy
 
 echo "Restarting containers..."
-docker compose --env-file .env -f $COMPOSE_FILE up -d
+docker compose --env-file .env -f $COMPOSE_FILE up
 
 echo "Deployed application!"
