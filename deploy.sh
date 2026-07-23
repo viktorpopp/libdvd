@@ -21,6 +21,7 @@ scp $COMPOSE_FILE $SERVER:$REMOTE_DIR/
 ssh $SERVER << EOF
     set -e
     cd /home/viktor/libdvd
+    git pull
 
     echo "Loading Docker images..."
     docker load -i /tmp/libdvd-images.tar
