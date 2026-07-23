@@ -27,14 +27,13 @@ ssh $SERVER << EOF
     rm /tmp/libdvd-images.tar
 
     echo "Running database migrations..."
-    docker compose -f docker-compose.prod.yml run --rm app pnpm dlx prisma migrate deploy
+    docker compose --env-file .env -f docker/docker-compose.prod.yml run --rm app pnpm prisma migrate deploy
 
     echo "Restarting containers..."
-    docker compose -f docker-compose.prod.yml up -d
-
-    echo "Pruning old images..."
-    docker image prune -f
+    docker compose --env-file .env -f docker/docker-compose.prod.yml up -d
 EOF
 
 echo "Removing locally saved image..."
 rm /tmp/libdvd-images.tar
+
+echo "Deployed application!"

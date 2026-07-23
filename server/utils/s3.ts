@@ -4,7 +4,7 @@ const s3ClientSingleton = () => {
   const config = useRuntimeConfig();
 
   return new S3Client({
-    region: config.s3Region,
+    region: config.s3Region || "eu-west-1",
     endpoint: config.s3Endpoint,
     credentials: {
       accessKeyId: config.s3AccessKey,
