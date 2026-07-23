@@ -6,8 +6,13 @@ export const useAuth = () => {
   if (!clientInstance) {
     const config = useRuntimeConfig();
 
+    if (!config.public.authBaseUrl) {
+      console.log("give me auth url pls");
+      process.exit(69);
+    }
+
     clientInstance = createAuthClient({
-      baseURL: (config.public.authBaseUrl as string) || "http://localhost:3000",
+      baseURL: config.public.authBaseUrl,
     });
   }
 

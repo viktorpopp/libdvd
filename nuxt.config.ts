@@ -15,8 +15,7 @@ export default defineNuxtConfig({
     s3Region: process.env.RUSTFS_REGION,
     s3BucketName: process.env.RUSTFS_BUCKET_NAME || "images",
     public: {
-      authBaseUrl:
-        process.env.NUXT_PUBLIC_AUTH_BASE_URL || "http://localhost:3000",
+      authBaseUrl: process.env.BETTER_AUTH_SECRET,
     },
   },
 });
