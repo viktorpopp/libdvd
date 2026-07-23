@@ -8,7 +8,7 @@ const s3ClientSingleton = () => {
   }
 
   return new S3Client({
-    region: config.s3Endpoint,
+    region: config.s3Region,
     endpoint: config.s3Endpoint,
     credentials: {
       accessKeyId: config.s3AccessKey,
