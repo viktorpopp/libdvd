@@ -9,7 +9,7 @@ set -e
 echo "Starting Deployment..."
 
 echo "Building Docker images..."
-docker compose -f $COMPOSE_FILE build
+docker compose --env-file .env -f $COMPOSE_FILE build
 
 echo "Saving application image..."
 docker save libdvd-app:latest -o /tmp/libdvd-images.tar

@@ -29,6 +29,7 @@ services:
 
   app:
     container_name: libdvd-app
+    image: libdvd-app:latest
     build:
       context: ..
       dockerfile: Dockerfile
