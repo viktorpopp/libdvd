@@ -3,8 +3,10 @@ import { S3Client } from "@aws-sdk/client-s3";
 const s3ClientSingleton = () => {
   const config = useRuntimeConfig();
 
+  const region = config.s3Region || process.env.RUSTFS_REGION || "eu-west-1";
+
   return new S3Client({
-    region: config.s3Region || "eu-west-1",
+    region: region,
     endpoint: config.s3Endpoint,
     credentials: {
       accessKeyId: config.s3AccessKey,
