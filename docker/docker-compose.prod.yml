@@ -4,7 +4,7 @@ services:
     image: postgres:alpine
     restart: unless-stopped
     env_file:
-      - .env
+      - ../.env
     volumes:
       - pgdata:/var/lib/postgresql/data
     ports:
@@ -20,7 +20,7 @@ services:
     image: rustfs/rustfs:latest
     restart: unless-stopped
     env_file:
-      - .env
+      - ../.env
     ports:
       - "9000:9000"
       - "9001:9001"
@@ -30,7 +30,7 @@ services:
   app:
     container_name: libdvd-app
     build:
-      context: .
+      context: ..
       dockerfile: Dockerfile
     restart: unless-stopped
     depends_on:
@@ -39,7 +39,7 @@ services:
       rustfs:
         condition: service_started
     env_file:
-      - .env
+      - ../.env
     environment:
       - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@database:5432/${POSTGRES_DB}
       - RUSTFS_ENDPOINT=http://rustfs:9000
